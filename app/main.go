@@ -11,15 +11,18 @@ import (
 )
 
 const (
-	BulkString = '$'
-	Array      = '*'
+	STRING      = '+'
+	ERROR       = '-'
+	INTEGER     = ':'
+	BULK_STRING = '$'
+	ARRAY       = '*'
 )
 
 var _ = net.Listen
 var _ = os.Exit
 var ErrLineTooShort = errors.New("line too short")
 var ErrorResponse = "-ERR %s\n"
-var SuccessResponse = "+%s\r\n"
+var SuccessResponse = "$%d\r\n%s\r\n"
 
 func main() {
 	fmt.Println("Local: http://0.0.0.0:6379")
@@ -75,14 +78,14 @@ func handleConnection(connection net.Conn) {
 				writeToConnection(connection, fmt.Sprintf(ErrorResponse, "unrecognized command"))
 				return
 			}
-			writeToConnection(connection, fmt.Sprintf(SuccessResponse, "PONG"))
+			writeToConnection(connection, fmt.Sprintf("+PONG\r\n"))
 			return
 		}
 		if commands[0] != "ECHO" {
 			writeToConnection(connection, fmt.Sprintf(ErrorResponse, "unrecognized command."))
 			return
 		}
-		writeToConnection(connection, fmt.Sprintf(SuccessResponse, commands[1]))
+		writeToConnection(connection, fmt.Sprintf(SuccessResponse, len(commands[1]), commands[1]))
 	}
 }
 
@@ -104,7 +107,7 @@ func getCommandsArray(reader *bufio.Reader) ([]string, error) {
 		fmt.Printf("Error while reading first byte: %s\n", err.Error())
 		return commands, err
 	}
-	if firstByte != Array {
+	if firstByte != ARRAY {
 		return commands, fmt.Errorf("expected array, got %c", firstByte)
 	}
 	line, err := readLine(reader)
@@ -132,7 +135,7 @@ func readBulkString(reader *bufio.Reader) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if bulkStringByte != BulkString {
+	if bulkStringByte != BULK_STRING {
 		return "", fmt.Errorf("expected bulk string, got %c", bulkStringByte)
 	}
 	line, err := readLine(reader)
