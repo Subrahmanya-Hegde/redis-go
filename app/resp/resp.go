@@ -21,5 +21,6 @@ var stringResponse = "+%s\r\n"
 var errorResponse = "-ERR %s\r\n"
 var integerResponse = ":%d\r\n"
 var bulkStringResponse = "$%d\r\n%s\r\n"
+var nilString = "$-1\r\n"
 
 var errLineTooShort = errors.New("line too short")

@@ -34,6 +34,11 @@ func (w *Writer) WriteBulkString(v string) error {
 	return w.Write(Value{Type: BulkString, String: v})
 }
 
+func (w *Writer) WriteNilString() error {
+	_, err := fmt.Fprintf(w.bw, nilString)
+	return err
+}
+
 func (w *Writer) write(v Value) error {
 	switch v.Type {
 	case String:

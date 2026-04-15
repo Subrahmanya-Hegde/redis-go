@@ -6,7 +6,7 @@ func handleGet(context *Context) error {
 	}
 	data, ok := context.Store.Get(context.Args[0].String)
 	if !ok {
-		return context.Writer.WriteError("Key not found")
+		return context.Writer.WriteNilString()
 	}
 	return context.Writer.WriteBulkString(data)
 }
