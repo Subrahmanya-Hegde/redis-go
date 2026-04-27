@@ -1,5 +1,7 @@
 package command
 
+import "time"
+
 func handleGet(context *Context) error {
 	if len(context.Args) != 1 {
 		return context.Writer.WriteError("Argument mismatch. usage: get <key>")
@@ -8,5 +10,8 @@ func handleGet(context *Context) error {
 	if !ok {
 		return context.Writer.WriteNilString()
 	}
-	return context.Writer.WriteBulkString(data)
+	if !data.Expiry.IsZero() && time.Now().After(data.Expiry) {
+		return context.Writer.WriteNilString()
+	}
+	return context.Writer.WriteBulkString(data.Data)
 }

@@ -36,7 +36,10 @@ func (w *Writer) WriteBulkString(v string) error {
 
 func (w *Writer) WriteNilString() error {
 	_, err := fmt.Fprintf(w.bw, nilString)
-	return err
+	if err != nil {
+		return err
+	}
+	return w.bw.Flush()
 }
 
 func (w *Writer) write(v Value) error {

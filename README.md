@@ -35,4 +35,10 @@ printf '*1\r\n$4\r\nPING\r\n' | nc localhost 6379
 printf '*2\r\n$4\r\nECHO\r\n$5\r\nhello\r\n' | nc localhost 6379
 # $5
 # hello
+
+# SET
+printf '*5\r\n$3\r\nSET\r\n$4\r\nname\r\n$6\r\nSubrah\r\n$2\r\nEX\r\n$1\r\n5\r\n' | nc localhost 6379
+
+# GET
+printf '*2\r\n$3\r\nGET\r\n$4\r\nname\r\n' | nc localhost 6379
 ```
