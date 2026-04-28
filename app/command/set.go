@@ -50,7 +50,8 @@ func handleSet(context *Context) error {
 		}
 	}
 	context.Store.Set(key, storage.Value{
-		Data:   value,
+		String: value,
+		Type:   "string",
 		Expiry: expiry,
 	})
 	return context.Writer.WriteSimpleString("OK")

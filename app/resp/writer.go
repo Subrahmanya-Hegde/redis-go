@@ -42,6 +42,14 @@ func (w *Writer) WriteNilString() error {
 	return w.bw.Flush()
 }
 
+func (w *Writer) WriteArray(items []string) error {
+	respArray := make([]Value, len(items))
+	for i := range items {
+		respArray[i] = Value{Type: BulkString, String: items[i]}
+	}
+	return w.Write(Value{Type: Array, Array: respArray})
+}
+
 func (w *Writer) write(v Value) error {
 	switch v.Type {
 	case String:

@@ -1,6 +1,10 @@
 package command
 
-import "time"
+import (
+	"time"
+
+	"github.com/subrahmanyahegde/redis-go/app/storage"
+)
 
 func handleGet(context *Context) error {
 	if len(context.Args) != 1 {
@@ -13,5 +17,15 @@ func handleGet(context *Context) error {
 	if !data.Expiry.IsZero() && time.Now().After(data.Expiry) {
 		return context.Writer.WriteNilString()
 	}
-	return context.Writer.WriteBulkString(data.Data)
+	return write(context, data)
+}
+
+func write(context *Context, data storage.Value) error {
+	switch data.Type {
+	case storage.TypeString:
+		return context.Writer.WriteBulkString(data.String)
+	case storage.TypeList:
+		return context.Writer.WriteArray(data.List)
+	}
+	return context.Writer.WriteError("Unknown type: " + data.Type)
 }

@@ -2,8 +2,15 @@ package storage
 
 import "time"
 
+const (
+	TypeString = "string"
+	TypeList   = "list"
+)
+
 type Value struct {
-	Data   string
+	Type   string
+	String string
+	List   []string
 	Expiry time.Time
 }
 type Store struct {
