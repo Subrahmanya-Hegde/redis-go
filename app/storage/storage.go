@@ -7,25 +7,25 @@ const (
 	TypeList   = "list"
 )
 
-type Value struct {
+type Data struct {
 	Type   string
 	String string
 	List   []string
 	Expiry time.Time
 }
 type Store struct {
-	data map[string]Value
+	data map[string]Data
 }
 
 func NewStore() *Store {
-	return &Store{data: make(map[string]Value)}
+	return &Store{data: make(map[string]Data)}
 }
 
-func (s *Store) Get(key string) (Value, bool) {
+func (s *Store) Get(key string) (Data, bool) {
 	val, ok := s.data[key]
 	return val, ok
 }
 
-func (s *Store) Set(key string, value Value) {
+func (s *Store) Set(key string, value Data) {
 	s.data[key] = value
 }

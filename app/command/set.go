@@ -49,7 +49,7 @@ func handleSet(context *Context) error {
 			return context.Writer.WriteError("unknown argument " + arg)
 		}
 	}
-	context.Store.Set(key, storage.Value{
+	context.Store.Set(key, storage.Data{
 		String: value,
 		Type:   "string",
 		Expiry: expiry,

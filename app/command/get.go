@@ -20,7 +20,7 @@ func handleGet(context *Context) error {
 	return write(context, data)
 }
 
-func write(context *Context, data storage.Value) error {
+func write(context *Context, data storage.Data) error {
 	switch data.Type {
 	case storage.TypeString:
 		return context.Writer.WriteBulkString(data.String)
