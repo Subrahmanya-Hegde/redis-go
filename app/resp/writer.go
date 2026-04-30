@@ -50,6 +50,13 @@ func (w *Writer) WriteArray(items []string) error {
 	return w.Write(Value{Type: Array, Array: respArray})
 }
 
+func (w *Writer) WriteInteger(value int) error {
+	return w.Write(Value{
+		Type:   Integer,
+		Number: value,
+	})
+}
+
 func (w *Writer) write(v Value) error {
 	switch v.Type {
 	case String:

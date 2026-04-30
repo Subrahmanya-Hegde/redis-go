@@ -10,17 +10,19 @@ import (
 type Handler func(context *Context) error
 
 const (
-	GET  = "GET"
-	SET  = "SET"
-	ECHO = "ECHO"
-	PING = "PING"
+	GET   = "GET"
+	SET   = "SET"
+	ECHO  = "ECHO"
+	PING  = "PING"
+	RPUSH = "RPUSH"
 )
 
 var registry = map[string]Handler{
-	GET:  handleGet,
-	SET:  handleSet,
-	ECHO: handleEcho,
-	PING: handlePing,
+	GET:   handleGet,
+	SET:   handleSet,
+	ECHO:  handleEcho,
+	PING:  handlePing,
+	RPUSH: handleRPush,
 }
 
 type Context struct {

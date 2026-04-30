@@ -42,4 +42,7 @@ printf '*2\r\n$4\r\nECHO\r\n$5\r\nhello\r\n' | nc localhost 6379
 
 # GET
 printf '*2\r\n$3\r\nGET\r\n$4\r\nname\r\n' | nc localhost 6379
+
+#RPUSH
+printf '*5\r\n$5\r\nRPUSH\r\n$6\r\nfruits\r\n$5\r\napple\r\n$6\r\nbanana\r\n$6\r\ncherry\r\n' | nc localhost 6379
 ```
